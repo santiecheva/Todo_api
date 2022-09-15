@@ -1,0 +1,1 @@
+Este schema me permite validar la información que es enviada a través de los métodos http para que sean recibidos en el formato indicado, es decir si un campo es booleano y llega 'true', este schema me permite cambiarlo a True
