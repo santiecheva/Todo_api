@@ -27,11 +27,7 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 def get_user(username: str):
-    print(username)
-    print(UserModel.username)
-    print(UserModel.password)
-    response = UserModel.select().where(UserModel.username == username)
-    print(response.UserModel)
+    response = UserModel.filter((UserModel.username == username) | (UserModel.email == username)).get()
     return response
     
 def authenticate_user(username: str, password: str):
