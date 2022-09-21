@@ -21,7 +21,7 @@ def create_user(user: user_schema.UserRegister):
     
     get_user = UserModel.filter(
         (UserModel.email == user.email) | (UserModel.username == user.username)
-        )
+        ).get()
     if get_user:
         msg = "El email ya está creado"
         if get_user.username == user.username:
