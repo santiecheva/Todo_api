@@ -1,6 +1,7 @@
 
 from datetime import datetime, timedelta
 from http.client import HTTPException
+from wsgiref import headers
 from app.v1.model.user_model import User as UserModel
 from jose import JWTError, jwt
 
@@ -66,7 +67,7 @@ async def get_current_user(token: str = Depends(oauth2_schema)):
     credentials_exception = HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="No se validaron las credenciales",
-            header={"WWW-Authenticate": "Bearer"}
+            headers={"WWW-Authenticate": "Bearer"}
         )
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
