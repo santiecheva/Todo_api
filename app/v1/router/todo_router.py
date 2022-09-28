@@ -54,3 +54,52 @@ def get_task(
     current_user: User = Depends(get_current_user)
 ):
     return todo_service.get_task(task_id, current_user)
+
+@router.patch(
+    "/{task_id}/mark_done",
+    tags = ["to-do"],
+    status_code=status.HTTP_200_OK,
+    response_model=todo_schema.Todo,
+    dependencies=[Depends(get_db)]
+)
+def mark_task_done(
+    task_id: int = Path(
+        ...,
+        gt=0
+    ),
+    current_user: User = Depends(get_current_user)
+):
+    return todo_service.update_status_task(True, task_id, current_user)
+
+
+@router.patch(
+    "/{task_id}/unmark_done",
+    tags = ["to-do"],
+    status_code=status.HTTP_200_OK,
+    response_model=todo_schema.Todo,
+    dependencies=[Depends(get_db)]
+)
+def unmark_task_done(
+    task_id: int = Path(
+        ...,
+        gt=0
+    ),
+    current_user: User = Depends(get_current_user)
+):
+    return todo_service.update_status_task(False, task_id, current_user)
+
+
+@router.delete(
+    "/{task_id}/",
+    tags=["to-do"],
+    status_code=status.HTTP_200_OK,
+    dependencies=[Depends(get_db)]
+)
+def delete_task(
+    task_id: int = Path(
+        ...,
+        gt=0
+    ),
+    current_user: User = Depends(get_current_user)
+):
+    todo_service.delete_task(task_id,current_user)

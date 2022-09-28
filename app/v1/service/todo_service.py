@@ -61,3 +61,39 @@ def get_task(task_id: int, user: user_schema.User):
         is_done= task.is_done,
         create_at = task.create_at
     )
+    
+def update_status_task(is_done: bool, task_id: int, user: user_schema.User):
+    task = TodoModel.filter(
+        (TodoModel.id == task_id) & ( TodoModel.user_id == user.id)
+    ).first()
+    
+    if not task:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No se encontró la tarea"
+        )
+    
+    task.is_done = is_done
+    task.save()
+    
+    return todo_schema.Todo(
+        id = task.id,
+        title = task.title,
+        is_done = task.is_done,
+        create_at= task.create_at
+    )    
+    
+def delete_task(task_id:int, user: user_schema.User):
+    task = TodoModel.filter(
+        (TodoModel.id == task_id) & (TodoModel.user_id == user.id)
+    ).first()
+    
+    if not task:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No se encontró la tarea"
+        )
+        
+    task.delete_instance()
+    
+    
