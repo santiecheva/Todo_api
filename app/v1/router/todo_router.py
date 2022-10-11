@@ -4,7 +4,7 @@ from fastapi import status
 from fastapi import Query
 from fastapi import Path
 
-from typing import Optional
+from typing import Optional, List
 from app.v1.schema import todo_schema
 from app.v1.service import todo_service
 from app.v1.utils.db import get_db
@@ -30,7 +30,7 @@ def create_task(
     "/",
     tags=["to-do"],
     status_code=status.HTTP_200_OK,
-    response_model=list[todo_schema.Todo],
+    response_model=List[todo_schema.Todo],
     dependencies= [Depends(get_db)]
 )
 def get_tasks(
